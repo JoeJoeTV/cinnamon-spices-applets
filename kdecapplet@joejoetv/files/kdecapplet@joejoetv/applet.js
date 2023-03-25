@@ -1777,8 +1777,12 @@ class KDEConnectApplet extends Applet.TextIconApplet {
         try {
             if (this.compatMode.versionLevel > 1) {
                 if (this.kdecProxy) {
-                    this.kdecProxy.openConfigurationRemote(Lang.bind(this, function() {
-                        this.info("Opened KDE Connect Configuration!", CommonUtils.LogLevel.INFO);
+                    this.kdecProxy.openConfigurationRemote(Lang.bind(this, function(returnValue, errorObj) {
+                        if (errorObj === null) {
+                            this.info("Opened KDE Connect Configuration!", CommonUtils.LogLevel.INFO);
+                        } else {
+                            this.error("Error while calling 'openConfiguration' DBus method: " + errorObj, CommonUtils.LogLevel.MINIMAL);
+                        }
                     }));
                 }
             } else {
